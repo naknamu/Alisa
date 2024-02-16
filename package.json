@@ -1,0 +1,24 @@
+{
+  "name": "alisa",
+  "version": "1.0.0",
+  "description": "An AI Images Sharing Platform",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naknamu/Alisa.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/naknamu/Alisa/issues"
+  },
+  "homepage": "https://github.com/naknamu/Alisa#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "morgan": "^1.10.0"
+  }
+}
