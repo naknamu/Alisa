@@ -13,8 +13,7 @@ const UploaderSchema = new Schema(
             required: true,
         },
         password: {
-            type: Schema.Types.ObjectId,
-            ref: "Category",
+            type: String,
             required: true,
         },
         slug: {
