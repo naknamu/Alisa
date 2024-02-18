@@ -8,7 +8,7 @@ image_list = asyncHandler(async (req, res, next) => {
 
 // Display detail page for a specific image.
 image_detail = asyncHandler(async (req, res, next) => {
-    res.send(`NOT IMPLEMENTED: image detail: ${req.params.id}`);
+    res.send(`NOT IMPLEMENTED: image detail: ${req.params.imagecaption}`);
 })
 
 // Display image create form on GET.

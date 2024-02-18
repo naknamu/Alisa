@@ -8,7 +8,7 @@ uploader_list = asyncHandler(async (req, res, next) => {
 
 // Display detail page for a specific uploader.
 uploader_detail = asyncHandler(async (req, res, next) => {
-    res.send(`NOT IMPLEMENTED: uploader detail: ${req.params.id}`);
+    res.send(`NOT IMPLEMENTED: uploader detail: ${req.params.uploadername}`);
 })
 
 // Display uploader create form on GET.

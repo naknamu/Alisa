@@ -3,6 +3,8 @@ const morgan = require("morgan");
 const path = require("path");
 const createError = require("http-errors");
 const mongoose = require("mongoose");
+const homeRouter = require("./routes/home");
+const apiRouter = require("./routes/api");
 
 // Enable env variables
 require("dotenv").config();
@@ -27,6 +29,10 @@ app.use(morgan("dev")); // logs requests to the console
 app.use(express.json());
 app.use(express.urlencoded({ extended:true }));
 app.use(express.static(path.join(__dirname, "public")));
+
+// Define routes
+app.use("/", homeRouter);
+app.use("/api", apiRouter);
 
 // Define routes
 app.get("/", function(req, res) {
