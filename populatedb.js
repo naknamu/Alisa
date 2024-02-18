@@ -53,12 +53,13 @@ console.log(
     console.log(`Added uploader: ${username}`);
   }
   
-  async function imageCreate(index, caption, prompt, category, uploader) {
+  async function imageCreate(index, caption, prompt, category, uploader, source) {
     const imagedetail = {
       caption: caption,
       prompt: prompt,
       category: category,
       uploader: uploader,
+      source: source,
     };
   
     const image = new Image(imagedetail);
@@ -95,30 +96,35 @@ console.log(
         "This is an example 1 prompt.",
         [categories[0]],
         uploaders[0],
+        "https://www.images.com/test/url"
       ),
       imageCreate(1,
         "The Wise Man's Fear (The Kingkiller Chronicle, #2)",
         "This is an example 2 prompt.",
         [categories[0]],
         uploaders[0],
+        "https://www.images.com/test/url1"
       ),
       imageCreate(2,
         "The Slow Regard of Silent Things (Kingkiller Chronicle)",
         "This is an example 3 prompt.",
         [categories[1]],
         uploaders[1],
+        "https://www.images.com/test/url2"
       ),
       imageCreate(3,
         "Apes and Angels",
         "This is an example 4 prompt.",
         [categories[2]],
         uploaders[2],
+        "https://www.images.com/test/url3"
       ),
       imageCreate(4,
         "The Land of the Rising Sun",
         "This is an example 5 prompt.",
         [categories[2]],
         uploaders[3],
+        "https://www.images.com/test/url4"
       ),
     ]);
 }

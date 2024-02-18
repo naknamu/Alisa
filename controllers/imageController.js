@@ -3,12 +3,19 @@ const asyncHandler = require("express-async-handler");
 
 // Display list of all images.
 image_list = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: image list");
+    //res.send("NOT IMPLEMENTED: image list");
+    const results = await Image.find({}).exec();
+
+    res.status(200).json(results);
 });
 
 // Display detail page for a specific image.
 image_detail = asyncHandler(async (req, res, next) => {
-    res.send(`NOT IMPLEMENTED: image detail: ${req.params.imagecaption}`);
+    const results = await Image.findOne({ slug: req.params.imagecaption })
+        .populate("category uploader")
+        .exec();
+
+    res.status(200).json(results);
 })
 
 // Display image create form on GET.

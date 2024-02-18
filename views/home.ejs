@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <%- include('partials/head'); %>
 </head>
 <body>
-    <header>
-        <h1><%= title %></h1>
-    </header>
+    <%- include('partials/nav'); %>
+
+    <div class="hero">
+        <div class="container">
+            <h1 class="h1">AI Images Sharing Platform API</h1>
+        </div>
+    </div>
+
     <main>
         <div>
             <h2>Number of Images: <%= image_count %></h2>
@@ -16,5 +19,7 @@
             <h2>Number of Categories: <%= category_count %></h2>
         </div>     
     </main>
+
+    <%- include('partials/footer'); %>
 </body>
 </html>

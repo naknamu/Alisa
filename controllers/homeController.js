@@ -17,7 +17,7 @@ exports.home = asyncHandler(async (req, res, next) => {
   ]);
 
   res.render("home", {
-    title: "Alisa - An AI Images Sharing Platform API",
+    title: "AI Images Sharing Platform API",
     image_count: numImages,
     uploader_count: numUploaders,
     category_count: numCategories,
