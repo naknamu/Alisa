@@ -23,6 +23,10 @@ const ImageSchema = new Schema(
             ref: "Uploader",
             required: true,
         },
+        source: {
+            type: String,
+            required: true,
+        },
         slug: {
             type: String,
             unique: true,

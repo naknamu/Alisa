@@ -24,6 +24,10 @@ mongoose.connect(mongoDB)
         console.error("Error connecting to MongoDB:", err.message);
     });
 
+// view engine setup
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+
 // Set up middleware
 app.use(morgan("dev")); // logs requests to the console
 app.use(express.json());
