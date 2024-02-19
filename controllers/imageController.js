@@ -1,5 +1,6 @@
 const Image = require("../models/image");
 const asyncHandler = require("express-async-handler");
+const { body, validationResult } = require("express-validator");
 
 // Display list of all images.
 image_list = asyncHandler(async (req, res, next) => {
@@ -24,9 +25,45 @@ image_create_get = asyncHandler(async (req, res, next) => {
 });
 
 // Handle image create on POST.
-image_create_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: image create POST");
-});
+image_create_post = [
+    // Convert category to an array
+    (req, res, next) => {
+        if (!(req.body.category instanceof Array)) {
+        if (typeof req.body.category === "undefined") req.body.category = [];
+        else req.body.category = new Array(req.body.category);
+        }
+
+        next();
+    },
+
+    // Validate and sanitize fields.
+    body("caption", "Caption must not be empty.").trim().isLength({ min: 1 }),
+    // body("prompt", "Prompt must not be empty.").trim().isLength({ min: 1 }),
+    body("category", "Category must not be empty.").trim().isLength({ min: 1 }),
+    body("uploader", "Uploader must not be empty.").trim().isLength({ min: 1 }),
+    body("source", "Source must not be empty.").trim().isLength({ min: 1 }),
+
+    asyncHandler(async (req, res, next) => {
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create a Book object with escaped and trimmed data.
+        const image = new Image({
+            caption: req.body.caption,
+            prompt: req.body.prompt,
+            category: req.body.category,
+            uploader: req.body.uploader,
+            source: req.body.source,
+        });
+
+        if (!errors.isEmpty()) {
+            res.status(400).json(errors.mapped());
+        } else {
+            await image.save();
+            res.status(200).json({ message: `Successfully saved ${req.body.caption}` });
+        }
+    }),
+];
 
 // Display image delete form on GET.
 image_delete_get = asyncHandler(async (req, res, next) => {
@@ -35,7 +72,10 @@ image_delete_get = asyncHandler(async (req, res, next) => {
 
 // Handle image delete on POST.
 image_delete_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: image delete POST");
+    //res.send("NOT IMPLEMENTED: image delete POST");
+    const image = await Image.findByIdAndDelete(req.params.imageid);
+
+    res.status(200).json({ message: `Deleted Image: ${image.caption}` });
 });
 
 // Display image update form on GET.

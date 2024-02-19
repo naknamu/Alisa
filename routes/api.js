@@ -51,16 +51,16 @@ router.get("/image/create", image_create_get);
 router.post("/image/create", image_create_post);
 
 // GET request for deleting image
-router.get("/image/:imagecaption/delete", image_delete_get);
+router.get("/image/:imageid/delete", image_delete_get);
 
 // POST request for deleting image
-router.post("/image/:imagecaption/delete", image_delete_post);
+router.post("/image/:imageid/delete", image_delete_post);
 
 // GET request for updating image
-router.get("/image/:imagecaption/update", image_update_get);
+router.get("/image/:imageid/update", image_update_get);
 
 // POST request for updating image
-router.post("/image/:imagecaption/update", image_update_post);
+router.post("/image/:imageid/update", image_update_post);
 
 // GET request for list of all images
 router.get("/images", image_list);
@@ -78,16 +78,16 @@ router.get("/category/create", category_create_get);
 router.post("/category/create", category_create_post);
 
 // GET request for deleting category
-router.get("/category/:categoryname/delete", category_delete_get);
+router.get("/category/:categoryid/delete", category_delete_get);
 
 // POST request for deleting category
-router.post("/category/:categoryname/delete", category_delete_post);
+router.post("/category/:categoryid/delete", category_delete_post);
 
 // GET request for updating category
-router.get("/category/:categoryname/update", category_update_get);
+router.get("/category/:categoryid/update", category_update_get);
 
 // POST request for updating category
-router.post("/category/:categoryname/update", category_update_post);
+router.post("/category/:categoryid/update", category_update_post);
 
 // GET request for list of categories
 router.get("/categories", category_list);
@@ -105,16 +105,16 @@ router.get("/uploader/create", uploader_create_get);
 router.post("/uploader/create", uploader_create_post);
 
 // GET request for deleting uploader
-router.get("/uploader/:uploadername/delete", uploader_delete_get);
+router.get("/uploader/:uploaderid/delete", uploader_delete_get);
 
 // POST request for deleting uploader
-router.post("/uploader/:uploadername/delete", uploader_delete_post);
+router.post("/uploader/:uploaderid/delete", uploader_delete_post);
 
 // GET request for updating uploader
-router.get("/uploader/:uploadername/update", uploader_update_get);
+router.get("/uploader/:uploaderid/update", uploader_update_get);
 
 // POST request for updating uploader
-router.post("/uploader/:uploadername/update", uploader_update_post);
+router.post("/uploader/:uploaderid/update", uploader_update_post);
 
 // GET request for list of uploaders
 router.get("/uploaders", uploader_list);
