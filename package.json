@@ -1,6 +1,9 @@
 {
   "name": "alisa",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=18.18.2"
+  },
   "description": "An AI Images Sharing Platform",
   "main": "index.js",
   "scripts": {
@@ -19,11 +22,14 @@
   "homepage": "https://github.com/naknamu/Alisa#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
     "dotenv": "^16.4.4",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
+    "express-rate-limit": "^7.1.5",
     "express-validator": "^7.0.1",
+    "helmet": "^7.1.0",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.1.2",

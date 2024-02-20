@@ -5,6 +5,8 @@ const createError = require("http-errors");
 const mongoose = require("mongoose");
 const homeRouter = require("./routes/home");
 const apiRouter = require("./routes/api");
+const compression = require("compression");
+const helmet = require("helmet");
 
 // Enable env variables
 require("dotenv").config();
@@ -28,7 +30,18 @@ mongoose.connect(mongoDB)
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+// Set up rate limiter: maximum of twenty requests per minute
+const RateLimit = require("express-rate-limit");
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 20,
+});
+// Apply rate limiter to all requests
+app.use(limiter);
+
 // Set up middleware
+app.use(compression()); // Compress all routes
+app.use(helmet());
 app.use(morgan("dev")); // logs requests to the console
 app.use(express.json());
 app.use(express.urlencoded({ extended:true }));
