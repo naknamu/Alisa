@@ -4,7 +4,6 @@ const { body, validationResult } = require("express-validator");
 
 // Display list of all images.
 image_list = asyncHandler(async (req, res, next) => {
-    //res.send("NOT IMPLEMENTED: image list");
     const results = await Image.find({}).exec();
 
     res.status(200).json(results);
