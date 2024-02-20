@@ -64,18 +64,68 @@ uploader_delete_get = asyncHandler(async (req, res, next) => {
 
 // Handle uploader delete on POST.
 uploader_delete_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: uploader delete POST");
+    //res.send("NOT IMPLEMENTED: uploader delete POST");
+    const uploader = await Uploader.findByIdAndDelete(req.params.uploaderid);
+
+    res.status(200).json({ message: `Deleted Uploader: ${uploader.username}` });
 });
 
 // Display uploader update form on GET.
 uploader_update_get = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: uploader update GET");
+    const uploader = await Uploader.findById(req.params.uploaderid);
+
+    res.status(200).json(uploader);
 });
 
 // Handle uploader update on POST.
-uploader_update_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: uploader update POST");
-});
+uploader_update_post = [
+    // Validate and sanitize fields.
+    body("email", "Email must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .isEmail()
+    .withMessage("Must be an email"),
+    body("username", "Username must not be empty.")
+    .trim()
+    .isLength({ min: 1 }),
+    body("password", "Password must not be empty.")
+    .trim()
+    .isLength({ min: 1 }),
+
+    asyncHandler(async (req, res, next) => {
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+    
+        // Create a Book object with escaped and trimmed data.
+        const uploader = new Uploader({
+          email: req.body.email,
+          username: req.body.username,
+          password: req.body.password,
+          _id: req.params.uploaderid,
+        });
+    
+        if (!errors.isEmpty()) {
+            res.status(400).json(errors.mapped());
+        } else {
+        const updatedUploader = await Uploader.findByIdAndUpdate(
+            req.params.uploaderid,
+            uploader,
+            {
+            new: true, // to return the updated document
+            runValidators: true, // to ensure that any validation rules are applied.
+            context: "query", //  to ensure that the pre-save middleware is triggered
+            }
+        );
+    
+        // Wait for the update to complete
+        await updatedUploader.save();
+    
+        res
+            .status(200)
+            .json({ message: `Successfully updated ${updatedUploader.username}` });
+        }
+    }),
+];
 
 module.exports = {
     uploader_list,
