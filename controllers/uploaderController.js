@@ -1,6 +1,28 @@
 const Uploader = require("../models/uploader");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
+const jwt = require("jsonwebtoken");
+
+const createToken = (_id) => {
+    return jwt.sign({_id}, process.env.SECRET, {expiresIn: '12h'});
+}
+
+// Login a user
+const uploader_login = async (req, res) => {
+    const {emailOrUsername, password} = req.body;
+
+    try {
+        const uploader = await Uploader.login(emailOrUsername, password);
+
+        // Create a token
+        const token = createToken(uploader._id);
+
+        res.status(200).json({emailOrUsername, token});
+
+    } catch (error) {
+        res.status(400).json({error: error.message});
+    }
+}
 
 // Display list of all uploaders.
 uploader_list = asyncHandler(async (req, res, next) => {
@@ -52,7 +74,7 @@ uploader_create_post = [
           res.status(400).json(errors.mapped());
         } else {
           await uploader.save();
-          res.status(200).json({ message: `Successfully saved user: ${req.body.username}` });
+          res.status(200).json({ message: `Successfully saved uploader: ${req.body.username}` });
         }
     }),
 ];
@@ -128,6 +150,7 @@ uploader_update_post = [
 ];
 
 module.exports = {
+    uploader_login,
     uploader_list,
     uploader_detail,
     uploader_create_get,

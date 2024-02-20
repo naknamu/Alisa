@@ -28,6 +28,7 @@ const {
 } = require("../controllers/categoryController");
 
 const {
+    uploader_login,
     uploader_list,
     uploader_detail,
     uploader_create_get,
@@ -97,6 +98,9 @@ router.get("/categories/:categoryname", category_detail);
 
 
 /***UPLOADER ROUTES ***/
+
+// GET request for login uploader
+router.get("/uploader/login", uploader_login);
 
 // GET request for creating uploader
 router.get("/uploader/create", uploader_create_get);

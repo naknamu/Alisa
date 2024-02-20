@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const slugify = require("slugify");
+const bcrypt = require("bcryptjs");
 
 const UploaderSchema = new Schema(
     {
@@ -51,6 +52,36 @@ UploaderSchema.post("save", function (error, doc, next) {
       next(error);
     }
 });
+
+// Encrypt password before saving to the database
+UploaderSchema.pre("save", async function (next) {
+    const uploader = this;
+    if (uploader.isModified("password")) {
+      const salt = await bcrypt.genSalt(10);
+      uploader.password = await bcrypt.hash(uploader.password, salt);
+    }
+    next();
+  });
+
+// static login method for uploader
+UploaderSchema.statics.login = async function(emailOrUsername, password) {
+
+    if (!emailOrUsername || !password) {
+      throw Error('All fields must be filled');
+    }
+  
+    const uploader = await this.findOne({ $or: [{ email: emailOrUsername}, {username: emailOrUsername}] });
+    if (!uploader) {
+      throw Error('Incorrect email or username');
+    }
+  
+    const match = await bcrypt.compare(password, uploader.password)
+    if (!match) {
+      throw Error('Incorrect password');
+    }
+  
+    return uploader;
+}
 
 // Export model
 module.exports = mongoose.model("Uploader", UploaderSchema);
