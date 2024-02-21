@@ -30,7 +30,17 @@ mongoose.connect(mongoDB)
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-// Set up rate limiter: maximum of twenty requests per minute
+// Custom function to extract client's IP address
+const getClientIp = (req) => {
+    // Logic to extract the client's IP address
+    // For example, if the IP address is forwarded in a specific header:
+    return req.headers['x-real-ip'] || req.ip;
+};
+
+// Enable trust proxy with a custom trust function
+app.set('trust proxy', getClientIp);
+
+// Set up rate limiter: maximum of 100 requests per 15 minute
 const RateLimit = require("express-rate-limit");
 const limiter = RateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
