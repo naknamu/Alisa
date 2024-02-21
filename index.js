@@ -30,6 +30,9 @@ mongoose.connect(mongoDB)
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+// Enable trust proxy
+app.set('trust proxy', true);
+
 // Set up rate limiter: maximum of twenty requests per minute
 const RateLimit = require("express-rate-limit");
 const limiter = RateLimit({
