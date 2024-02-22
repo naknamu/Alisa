@@ -18,6 +18,7 @@ const UploaderSchema = new Schema(
         password: {
             type: String,
             required: true,
+            select: false,
         },
         slug: {
             type: String,
