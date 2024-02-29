@@ -71,7 +71,7 @@ UploaderSchema.statics.login = async function(emailOrUsername, password) {
       throw Error('All fields must be filled');
     }
   
-    const uploader = await this.findOne({ $or: [{ email: emailOrUsername}, {username: emailOrUsername}] });
+    const uploader = await this.findOne({ $or: [{ email: emailOrUsername}, {username: emailOrUsername}] }).select("+password");
     if (!uploader) {
       throw Error('Incorrect email or username');
     }
