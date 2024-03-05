@@ -39,6 +39,10 @@ const {
     uploader_update_post,
 } = require("../controllers/uploaderController");
 
+// Require auth middleware
+const auth = require("../middleware/requireAuth");
+
+/***  HOME ROUTE ***/
 
 // GET HOMEPAGE
 router.get("/", home);
@@ -55,13 +59,13 @@ router.post("/image/create", image_create_post);
 router.get("/image/:imageid/delete", image_delete_get);
 
 // POST request for deleting image
-router.post("/image/:imageid/delete", image_delete_post);
+router.post("/image/:imageid/delete", auth, image_delete_post);
 
 // GET request for updating image
 router.get("/image/:imageid/update", image_update_get);
 
 // POST request for updating image
-router.post("/image/:imageid/update", image_update_post);
+router.post("/image/:imageid/update", auth, image_update_post);
 
 // GET request for list of all images
 router.get("/images", image_list);
@@ -82,13 +86,13 @@ router.post("/category/create", category_create_post);
 router.get("/category/:categoryid/delete", category_delete_get);
 
 // POST request for deleting category
-router.post("/category/:categoryid/delete", category_delete_post);
+router.post("/category/:categoryid/delete", auth, category_delete_post);
 
 // GET request for updating category
 router.get("/category/:categoryid/update", category_update_get);
 
 // POST request for updating category
-router.post("/category/:categoryid/update", category_update_post);
+router.post("/category/:categoryid/update", auth, category_update_post);
 
 // GET request for list of categories
 router.get("/categories", category_list);
@@ -112,13 +116,13 @@ router.post("/uploader/create", uploader_create_post);
 router.get("/uploader/:uploaderid/delete", uploader_delete_get);
 
 // POST request for deleting uploader
-router.post("/uploader/:uploaderid/delete", uploader_delete_post);
+router.post("/uploader/:uploaderid/delete", auth, uploader_delete_post);
 
 // GET request for updating uploader
 router.get("/uploader/:uploaderid/update", uploader_update_get);
 
 // POST request for updating uploader
-router.post("/uploader/:uploaderid/update", uploader_update_post);
+router.post("/uploader/:uploaderid/update", auth, uploader_update_post);
 
 // GET request for list of uploaders
 router.get("/uploaders", uploader_list);
