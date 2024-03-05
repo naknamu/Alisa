@@ -15,9 +15,9 @@ const uploader_login = async (req, res) => {
         const uploader = await Uploader.login(emailOrUsername, password);
 
         // Create a token
-        const token = createToken(uploader._id);
+        //const token = createToken(uploader._id);
 
-        res.status(200).json({emailOrUsername, token});
+        res.status(200).json({name: uploader.slug, email: uploader.email});
 
     } catch (error) {
         res.status(400).json({error: error.message});
@@ -74,7 +74,7 @@ uploader_create_post = [
           res.status(400).json(errors.mapped());
         } else {
           await uploader.save();
-          res.status(200).json({ message: `Successfully saved uploader: ${req.body.username}` });
+          res.status(200).json({ message: `Successfully saved`, uploader: uploader.slug });
         }
     }),
 ];
