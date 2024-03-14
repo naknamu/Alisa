@@ -56,6 +56,7 @@ image_create_post = [
             category: req.body.category,
             uploader: req.body.uploader,
             source: req.body.source,
+            love: req.body.love
         });
 
         if (!errors.isEmpty()) {
@@ -143,6 +144,87 @@ image_update_post = [
     }),
 ];
 
+imagelove_update_post = [
+
+    // Convert category to an array
+    (req, res, next) => {
+        if (!(req.body.love instanceof Array)) {
+        if (typeof req.body.love === "undefined") req.body.love = [];
+        else req.body.love = new Array(req.body.love);
+        }
+
+        next();
+    },
+
+    // Validate and sanitize fields.
+    body("love", "Love must not be empty.").trim().isLength({ min: 1 }),
+
+    asyncHandler(async (req, res, next) => {
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        const filter = { _id: req.params.imageid};
+        const update = { $addToSet: { love: req.body.love } };
+
+        if (!errors.isEmpty()) {
+            res.status(400).json(errors.mapped());
+        } else {
+        const updatedImage = await Image.findOneAndUpdate(
+            filter,
+            update,
+            {
+            new: true, // to return the updated document
+            runValidators: true, // to ensure that any validation rules are applied.
+            context: "query", //  to ensure that the pre-save middleware is triggered
+            }
+        );
+    
+        // Wait for the update to complete
+        await updatedImage.save();
+    
+        res
+            .status(200)
+            .json({ message: `Successfully updated love for ${updatedImage.caption}` });
+        }
+    }),
+]
+
+// Handle image love POST
+imagelove_delete_post = [
+
+    // Validate and sanitize fields.
+    body("love", "Love must not be empty.").trim().isLength({ min: 1 }),
+
+    asyncHandler(async (req, res, next) => {
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        const filter = { _id: req.params.imageid};
+        const update = { $pull: { love: req.body.love } };
+
+        if (!errors.isEmpty()) {
+            res.status(400).json(errors.mapped());
+        } else {
+        const updatedImage = await Image.findOneAndUpdate(
+            filter,
+            update,
+            {
+            new: true, // to return the updated document
+            runValidators: true, // to ensure that any validation rules are applied.
+            context: "query", //  to ensure that the pre-save middleware is triggered
+            }
+        );
+    
+        // Wait for the update to complete
+        await updatedImage.save();
+    
+        res
+            .status(200)
+            .json({ message: `Successfully deleted love for ${updatedImage}` });
+        }
+    }),
+]
+
 module.exports = {
     image_list,
     image_detail,
@@ -152,4 +234,6 @@ module.exports = {
     image_delete_post,
     image_update_get,
     image_update_post,
+    imagelove_update_post,
+    imagelove_delete_post
 }  

@@ -17,7 +17,6 @@ const uploader_login = async (req, res) => {
         // Create a token
         const token = createToken(uploader._id);
 
-
         res.setHeader('Authorization', `Bearer ${token}`)
         res.status(200).json({name: uploader.slug, email: uploader.email});
 

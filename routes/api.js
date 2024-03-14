@@ -14,6 +14,8 @@ const {
     image_delete_post,
     image_update_get,
     image_update_post,
+    imagelove_update_post,
+    imagelove_delete_post
 } = require("../controllers/imageController");
 
 const {
@@ -66,6 +68,12 @@ router.get("/image/:imageid/update", image_update_get);
 
 // POST request for updating image
 router.post("/image/:imageid/update", auth, image_update_post);
+
+// POST request for updating love count
+router.post("/image/:imageid/love/update", auth, imagelove_update_post);
+
+// POST request for deleting love count
+router.post("/image/:imageid/love/delete", auth, imagelove_delete_post);
 
 // GET request for list of all images
 router.get("/images", image_list);
