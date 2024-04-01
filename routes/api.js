@@ -1,45 +1,50 @@
 const express = require("express");
 const router = express.Router();
 
-const {
-    home
-} = require("../controllers/homeController");
+const { home } = require("../controllers/homeController");
 
 const {
-    image_list,
-    image_detail,
-    image_create_get,
-    image_create_post,
-    image_delete_get,
-    image_delete_post,
-    image_update_get,
-    image_update_post,
-    imagelove_update_post,
-    imagelove_delete_post
+  image_list,
+  image_detail,
+  image_create_get,
+  image_create_post,
+  image_delete_get,
+  image_delete_post,
+  image_update_get,
+  image_update_post,
+  imagelove_update_post,
+  imagelove_delete_post,
 } = require("../controllers/imageController");
 
 const {
-    category_list,
-    category_detail,
-    category_create_get,
-    category_create_post,
-    category_delete_get,
-    category_delete_post,
-    category_update_get,
-    category_update_post,
+  category_list,
+  category_detail,
+  category_create_get,
+  category_create_post,
+  category_delete_get,
+  category_delete_post,
+  category_update_get,
+  category_update_post,
 } = require("../controllers/categoryController");
 
 const {
-    uploader_login,
-    uploader_list,
-    uploader_detail,
-    uploader_create_get,
-    uploader_create_post,
-    uploader_delete_get,
-    uploader_delete_post,
-    uploader_update_get,
-    uploader_update_post,
+  uploader_login,
+  uploader_list,
+  uploader_detail,
+  uploader_create_get,
+  uploader_create_post,
+  uploader_delete_get,
+  uploader_delete_post,
+  uploader_update_get,
+  uploader_update_post,
 } = require("../controllers/uploaderController");
+
+const {
+  comment_list,
+  comment_create_post,
+  comment_delete_post,
+  comment_update_post,
+} = require("../controllers/commentController");
 
 // Require auth middleware
 const auth = require("../middleware/requireAuth");
@@ -81,7 +86,6 @@ router.get("/images", image_list);
 // GET request for detail of a image
 router.get("/images/:imagecaption", image_detail);
 
-
 /***CATEGORY ROUTES ***/
 
 // GET request for creating category
@@ -107,7 +111,6 @@ router.get("/categories", category_list);
 
 // GET request for a single category
 router.get("/categories/:categoryname", category_detail);
-
 
 /***UPLOADER ROUTES ***/
 
@@ -138,5 +141,18 @@ router.get("/uploaders", uploader_list);
 // GET request for a single uploader
 router.get("/uploaders/:uploadername", uploader_detail);
 
+/***COMMENT ROUTES ***/
+
+// POST request for creating comment
+router.post("/comment/create", auth, comment_create_post);
+
+// POST request for deleting comment
+router.post("/comment/:commentid/delete", auth, comment_delete_post);
+
+// POST request for updating comment
+router.post("/comment/:commentid/update", auth, comment_update_post);
+
+// GET request for list of comments
+router.get("/comments", comment_list);
 
 module.exports = router;
