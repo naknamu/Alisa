@@ -18,7 +18,7 @@ const uploader_login = async (req, res) => {
         const token = createToken(uploader._id);
 
         res.setHeader('Authorization', `Bearer ${token}`)
-        res.status(200).json({name: uploader.slug, email: uploader.email});
+        res.status(200).json({name: uploader.slug, email: uploader.email, id: uploader._id});
 
     } catch (error) {
         res.status(400).json({error: error.message});
