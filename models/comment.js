@@ -2,28 +2,39 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const CommentSchema = new Schema(
-    {
-        uploader: {
-            type: Schema.Types.ObjectId,
-            ref: "Uploader",
-            required: true,
-        },
-        message: {
-            type: String,
-            required: true,
-        },
-        reply_to: {
-            type: Schema.Types.ObjectId,
-            ref: "Uploader",
-        },
-        image: {
-            type: Schema.Types.ObjectId,
-            ref: "Image",
-            required: true,
-        },
+  {
+    uploader: {
+      type: Schema.Types.ObjectId,
+      ref: "Uploader",
+      required: true,
     },
-    { timestamps: true }
+    message: {
+      type: String,
+      required: true,
+    },
+    parent: {
+      type: Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+    image: {
+      type: Schema.Types.ObjectId,
+      ref: "Image",
+      required: true,
+    },
+    replies: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
+  },
+  { timestamps: true }
 );
+
+CommentSchema.pre("find", function (next) {
+  this.populate({ path: "replies", populate: { path: "uploader" } });
+  next();
+});
 
 // Export model
 module.exports = mongoose.model("Comment", CommentSchema);

@@ -44,6 +44,7 @@ const {
   comment_create_post,
   comment_delete_post,
   comment_update_post,
+  reply_create_post,
 } = require("../controllers/commentController");
 
 // Require auth middleware
@@ -145,6 +146,9 @@ router.get("/uploaders/:uploadername", uploader_detail);
 
 // POST request for creating comment
 router.post("/comment/create", auth, comment_create_post);
+
+// POST request for creating reply
+router.post("/:commentId/reply/:imageId", auth, reply_create_post);
 
 // POST request for deleting comment
 router.post("/comment/:commentid/delete", auth, comment_delete_post);
