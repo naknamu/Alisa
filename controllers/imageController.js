@@ -6,7 +6,7 @@ const { body, validationResult } = require("express-validator");
 image_list = asyncHandler(async (req, res, next) => {
     const results = await Image.find({})
         .sort({createdAt: -1})
-        .populate("category uploader")
+        .populate("category uploader comments")
         .exec();
 
     res.status(200).json(results);
@@ -15,7 +15,7 @@ image_list = asyncHandler(async (req, res, next) => {
 // Display detail page for a specific image.
 image_detail = asyncHandler(async (req, res, next) => {
     const results = await Image.findOne({ slug: req.params.imagecaption })
-        .populate("category uploader")
+        .populate("category uploader comments")
         .exec();
 
     res.status(200).json(results);

@@ -151,7 +151,7 @@ router.post("/comment/create", auth, comment_create_post);
 router.post("/:commentId/reply/:imageId", auth, reply_create_post);
 
 // POST request for deleting comment
-router.post("/comment/:commentid/delete", auth, comment_delete_post);
+router.post("/:imageid/:uploaderid/comment/:commentid/delete", auth, comment_delete_post);
 
 // POST request for updating comment
 router.post("/comment/:commentid/update", auth, comment_update_post);

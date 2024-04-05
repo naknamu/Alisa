@@ -1,5 +1,6 @@
 const Comment = require("../models/comment");
 const Image = require("../models/image");
+const Uploader = require("../models/uploader");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 
@@ -34,6 +35,10 @@ comment_create_post = [
       await comment.save();
       await Image.findOneAndUpdate(
         { _id: req.body.image },
+        { $push: { comments: comment._id } }
+      );
+      await Uploader.findOneAndUpdate(
+        { _id: req.body.uploader },
         { $push: { comments: comment._id } }
       );
 
@@ -72,6 +77,14 @@ reply_create_post = [
         { _id: commentId },
         { $push: { replies: newReply._id } }
       );
+      await Image.findOneAndUpdate(
+        { _id: imageId },
+        { $push: { comments: newReply._id } }
+      );
+      await Uploader.findOneAndUpdate(
+        { _id: req.body.uploader },
+        { $push: { comments: newReply._id } }
+      );
       res.status(200).json({
         message: `Successfully saved reply`,
       });
@@ -82,6 +95,14 @@ reply_create_post = [
 // Handle Comment delete on POST.
 comment_delete_post = asyncHandler(async (req, res, next) => {
   const comment = await Comment.findByIdAndDelete(req.params.commentid);
+  await Image.findOneAndUpdate(
+    { _id: req.params.imageid },
+    { $pull: { comments: req.params.commentid } }
+  );
+  await Uploader.findOneAndUpdate(
+    { _id: req.params.uploaderid },
+    { $pull: { comments: req.params.commentid } }
+  );
 
   res.status(200).json({ message: `Comment deleted from ${comment.uploader}` });
 });

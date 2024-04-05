@@ -32,7 +32,9 @@ const CommentSchema = new Schema(
 );
 
 CommentSchema.pre("find", function (next) {
-  this.populate({ path: "replies", populate: { path: "uploader" } });
+  this.populate({ path: "replies", populate: { path: "uploader" } }).populate({
+    path: "uploader",
+  });
   next();
 });
 

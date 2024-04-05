@@ -24,6 +24,12 @@ const UploaderSchema = new Schema(
             type: String,
             unique: true,
         },
+        comments: [
+          {
+            type: Schema.Types.ObjectId,
+            ref: "Comment"
+          },
+        ],
     },
     { timestamps: true }
 );
