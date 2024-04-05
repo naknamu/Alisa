@@ -37,6 +37,12 @@ const ImageSchema = new Schema(
         ref: "Uploader"
       },
     ],
+    comments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Comment"
+      },
+    ],
   },
   { timestamps: true }
 );
