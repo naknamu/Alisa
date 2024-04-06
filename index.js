@@ -8,6 +8,7 @@ const apiRouter = require("./routes/api");
 const compression = require("compression");
 const helmet = require("helmet");
 const cors = require('cors');
+const startCronJob = require('./cronJob');
 
 // Enable env variables
 require("dotenv").config();
@@ -55,10 +56,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", homeRouter);
 app.use("/api", apiRouter);
 
-// Define routes
-app.get("/", function(req, res) {
-    res.send("Hello World!");
-});
+// Start cron job
+startCronJob();
 
 // Catch 404 and forward to error handler
 app.use(function (req, res, next) {
