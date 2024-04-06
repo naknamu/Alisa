@@ -94,17 +94,30 @@ reply_create_post = [
 
 // Handle Comment delete on POST.
 comment_delete_post = asyncHandler(async (req, res, next) => {
-  const comment = await Comment.findByIdAndDelete(req.params.commentid);
-  await Image.findOneAndUpdate(
-    { _id: req.params.imageid },
-    { $pull: { comments: req.params.commentid } }
-  );
-  await Uploader.findOneAndUpdate(
-    { _id: req.params.uploaderid },
-    { $pull: { comments: req.params.commentid } }
-  );
 
-  res.status(200).json({ message: `Comment deleted from ${comment.uploader}` });
+  // Change the status of delete flag 
+  // else delete the comment permanently
+  if (req.body.isDeleted) {
+    const result = await Comment.findOneAndUpdate(
+      { _id: req.params.commentid },
+      { $set: { isDeleted: req.body.isDeleted } }
+    );
+
+    res.status(200).json({ message: `Comment ${req.params.commentid}, delete flag set to true` });
+
+  } else {
+    const comment = await Comment.findByIdAndDelete(req.params.commentid);
+    await Image.findOneAndUpdate(
+      { _id: req.params.imageid },
+      { $pull: { comments: req.params.commentid } }
+    );
+    await Uploader.findOneAndUpdate(
+      { _id: req.params.uploaderid },
+      { $pull: { comments: req.params.commentid } }
+    );
+
+    res.status(200).json({ message: `Comment deleted permanently from ${comment.uploader}` });
+  }
 });
 
 // Handle Comment update on POST.

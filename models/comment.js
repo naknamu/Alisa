@@ -27,6 +27,11 @@ const CommentSchema = new Schema(
         ref: "Comment",
       },
     ],
+    isDeleted: {
+      type: Boolean,
+      default: false,
+      required: true,
+    }
   },
   { timestamps: true }
 );
