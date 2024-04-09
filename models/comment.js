@@ -43,5 +43,12 @@ CommentSchema.pre("find", function (next) {
   next();
 });
 
+CommentSchema.pre("find", function (next) {
+  this.populate({
+    path: "image",
+  });
+  next();
+});
+
 // Export model
 module.exports = mongoose.model("Comment", CommentSchema);
